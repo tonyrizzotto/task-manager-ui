@@ -23,9 +23,9 @@ export async function login(data) {
     });
 }
 
-export function checkAuthentication() {
-  return (
-    localStorage.getItem('task-access-token') &&
-    localStorage.getItem('task-access-token-expiration') > Date.now()
-  );
+export function isAuthenticated() {
+  const validToken = localStorage.getItem('task-access-token') !== undefined;
+  const expTimer =
+    localStorage.getItem('task-access-token-expiration') > Date.now();
+  return validToken && expTimer ? true : false;
 }

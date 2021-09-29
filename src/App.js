@@ -1,16 +1,21 @@
-import React, { useEffect, useState } from 'react';
-import { login, checkAuthentication } from './middleware/middleware';
+import React from 'react';
+import TaskManager from './components/TaskManager';
+import Login from './components/Login';
+import { isAuthenticated } from './middleware/middleware';
 import './App.css';
 
 const App = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  login({ email: 'tony@tonyrizzotto.co', password: 'Guitar_05' });
-
-  // useEffect(() => {
-  //   const authCheck = checkAuthentication();
-  //   setIsAuthenticated(authCheck);
-  // }, []);
-  return <div>App</div>;
+  return (
+    <div>
+      <div className="container">
+        {isAuthenticated() ? (
+          <TaskManager />
+        ) : (
+          <Login isAuthenticated={isAuthenticated} />
+        )}
+      </div>
+    </div>
+  );
 };
 
 export default App;
