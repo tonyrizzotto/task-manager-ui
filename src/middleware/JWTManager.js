@@ -1,18 +1,30 @@
+import Cookies from 'universal-cookie';
+const cookies = new Cookies();
+
 // Controls functionality of a JWT and uses closure to hide the value
 const JWTManager = () => {
-  let currentJWT = null;
-
   const getToken = () => {
-    return currentJWT;
+    try {
+      return cookies.get('tm-access').token;
+    } catch (e) {
+      return null;
+    }
   };
 
   const setToken = (token) => {
-    currentJWT = token;
+    cookies.set(
+      'tm-access',
+      { token: token },
+      {
+        path: '/',
+        maxAge: 600,
+      }
+    );
     return true;
   };
 
   const deleteToken = () => {
-    currentJWT = null;
+    cookies.remove('tm-access');
     return true;
   };
 

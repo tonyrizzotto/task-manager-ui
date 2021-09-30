@@ -29,14 +29,4 @@ const authProvider = {
   },
 };
 
-//
-// export async function login({ email, password }) {}
-
-// Checks to see if the user is Authenticated and the token is valid
-// export function isAuthenticated(token) {
-//   return false;
-// }
-
-// If a user is authenticated, we can fetch their data
-
 export default authProvider;
