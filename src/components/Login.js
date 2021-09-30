@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { login } from '../middleware/middleware';
+import authProvider from '../middleware/middleware';
 
 const Login = (props) => {
   const [email, setEmail] = useState('');
@@ -7,8 +7,10 @@ const Login = (props) => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    login({ email, password });
-    props.isAuthenticated();
+    authProvider.login({ email, password }).then((data) => {
+      // set Authentication on result of login request
+      props.setIsAuthenticated(authProvider.isAuthenticated());
+    });
   };
   return (
     <div>

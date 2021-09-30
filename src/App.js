@@ -1,17 +1,21 @@
-import React from 'react';
-import TaskManager from './components/TaskManager';
+import React, { useState, useEffect } from 'react';
 import Login from './components/Login';
-import { isAuthenticated } from './middleware/middleware';
+import TaskManager from './components/TaskManager';
 import './App.css';
 
 const App = () => {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  useEffect(() => {
+    console.log(isAuthenticated);
+  }, [isAuthenticated]);
   return (
     <div>
       <div className="container">
-        {isAuthenticated() ? (
+        {isAuthenticated ? (
           <TaskManager />
         ) : (
-          <Login isAuthenticated={isAuthenticated} />
+          <Login setIsAuthenticated={setIsAuthenticated} />
         )}
       </div>
     </div>
