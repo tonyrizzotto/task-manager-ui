@@ -17,7 +17,7 @@ const JWTManager = () => {
       { token: token },
       {
         path: '/',
-        maxAge: 600,
+        maxAge: 60000,
       }
     );
     return true;

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import taskClient from '../middleware/taskClient';
+import CreateTask from './CreateTask';
 
 const TaskManager = () => {
   const [user, setUser] = useState({});
@@ -14,13 +15,20 @@ const TaskManager = () => {
     [tasks]
   );
   return (
-    <div>
-      <div>
+    <div id="task-manager">
+      <div className="heading">
         <h1>Welcome, {user.name}</h1>
       </div>
-      {tasks.map((task) => (
-        <div key={task._id}>{task.description}</div>
-      ))}
+      <div className="new-tasks">
+        <CreateTask setTasks={setTasks} />
+      </div>
+      <div className="tasks">
+        {tasks.map((task) => (
+          <div className="task" key={task._id}>
+            {task.description}
+          </div>
+        ))}
+      </div>
     </div>
   );
 };

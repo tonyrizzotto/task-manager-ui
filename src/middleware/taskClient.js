@@ -44,6 +44,24 @@ const taskClient = {
 
     return tasks;
   },
+
+  newTask: async (task, cb) => {
+    await fetch('/tasks', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${JWTManager.getToken()}`,
+      },
+      body: JSON.stringify({
+        description: `${task}`,
+      }),
+    }).then(
+      taskClient.getTasks().then((res) => {
+        console.log(res);
+        cb(res);
+      })
+    );
+  },
 };
 
 export default taskClient;
