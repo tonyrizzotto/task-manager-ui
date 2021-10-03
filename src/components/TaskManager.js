@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import taskClient from '../middleware/taskClient';
 import CreateTask from './CreateTask';
+import './styles/TaskManager.css';
 
 const TaskManager = () => {
   const [user, setUser] = useState({});
@@ -14,6 +15,23 @@ const TaskManager = () => {
     [],
     [tasks]
   );
+
+  // Listen for task modifications
+  const taskArray = document.querySelectorAll('.task');
+  taskArray.forEach((item) => {
+    item.addEventListener('click', () => {
+      const content = item.querySelector('p');
+      const check = item.querySelector('.fas');
+      if (content.classList.contains('selected')) {
+        content.classList.remove('selected');
+        check.style.opacity = '0';
+      } else {
+        content.classList.add('selected');
+        check.style.opacity = '1';
+      }
+    });
+  });
+
   return (
     <div id="task-manager">
       <div className="heading">
@@ -25,7 +43,12 @@ const TaskManager = () => {
       <div className="tasks">
         {tasks.map((task) => (
           <div className="task" key={task._id}>
-            {task.description}
+            <span>
+              <p className="desc" data-id={task._id}>
+                {task.description}
+              </p>
+              <i className="fas fa-check"></i>
+            </span>
           </div>
         ))}
       </div>

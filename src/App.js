@@ -12,7 +12,7 @@ const App = () => {
     setIsAuthenticated(authProvider.isAuthenticated());
   }, []);
   return (
-    <div>
+    <div id="wrapper">
       <div className="container">
         {!isAuthenticated ? (
           <Login setIsAuthenticated={setIsAuthenticated} />

@@ -1,0 +1,27 @@
+.task {
+  font-size: 18px;
+  padding: 5px 0;
+  position: relative;
+  cursor: pointer;
+}
+
+.task p {
+  display: inline-block;
+  min-width: 300px;
+}
+
+.task .fas {
+  color: green;
+  opacity: 0;
+  transition: opacity 150ms linear;
+}
+
+/* .task:hover .fas {
+  opacity: 1;
+} */
+
+.selected {
+  color: rgb(119, 116, 116);
+  font-style: italic;
+  text-decoration: line-through;
+}
