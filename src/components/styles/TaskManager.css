@@ -1,5 +1,5 @@
 .task {
-  font-size: 18px;
+  font-size: 35px;
   padding: 5px 0;
   position: relative;
   cursor: pointer;
@@ -9,11 +9,31 @@
   display: inline-block;
   min-width: 300px;
 }
+.fa-pencil-alt {
+  display: none;
+  font-size: 35px;
+  color: rgb(131, 130, 130);
+  position: absolute;
+  top: 8px;
+  left: -35px;
+  transition: color 500ms;
+}
 
-.fas {
+.fa-pencil-alt:hover {
+  color: rgb(48, 156, 120);
+}
+.task:hover .fa-pencil-alt {
+  display: inline-block;
+}
+.fa-times {
   opacity: 0;
 }
+.edit-icon {
+  opacity: 1;
+}
+
 .red-check {
+  margin-left: 2em;
   color: rgb(245, 116, 116);
   opacity: 1;
   transition: color 2s ease;

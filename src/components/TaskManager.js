@@ -6,6 +6,8 @@ import './styles/TaskManager.css';
 const TaskManager = () => {
   const [user, setUser] = useState({});
   const [tasks, setTasks] = useState([]);
+  const [previousTask, setPreviousTask] = useState('');
+  // const [editedTask, setEditedTask] = useState('');
 
   useEffect(() => {
     taskClient.getUser().then((res) => setUser(res));
@@ -35,6 +37,7 @@ const TaskManager = () => {
       icon.classList.add('red-check');
     }
   };
+
   return (
     <div id="task-manager">
       <div className="heading">
@@ -45,14 +48,31 @@ const TaskManager = () => {
       </div>
       <div id="tasks">
         {tasks.map((task) => (
-          <div className="task" key={task._id}>
+          <div className="task edit-icon" key={task._id}>
             <span>
+              <i
+                className="fas fa-pencil-alt"
+                onClick={(e) => {
+                  const pItem = e.target.nextElementSibling;
+
+                  //store previous task in state
+                  setPreviousTask(pItem.innerText);
+
+                  //create an input with task._id attribute
+                  const editInput = document.createElement('input');
+                  editInput.setAttribute('type', 'text');
+                  editInput.classList.add('edit-input');
+                  editInput.setAttribute('placeholder', pItem.innerText);
+                  editInput.setAttribute('data-id', task._id);
+
+                  pItem.parentNode.replaceChild(editInput, pItem);
+                }}
+              ></i>
               <p
                 className="desc"
                 data-id={task._id}
                 onClick={(e) => {
-                  const item = e.target;
-                  applyStyles(item, 'selected');
+                  applyStyles(e.target, 'selected');
                 }}
               >
                 {task.description}
@@ -63,6 +83,7 @@ const TaskManager = () => {
                   const item =
                     e.target.previousElementSibling.attributes[1].value;
                   e.target.classList.add('hidden');
+                  e.target.previousElementSibling.classList.add('hidden');
                   taskClient.deleteTask(item, setTasks);
                 }}
               ></i>
