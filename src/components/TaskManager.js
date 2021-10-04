@@ -7,31 +7,34 @@ const TaskManager = () => {
   const [user, setUser] = useState({});
   const [tasks, setTasks] = useState([]);
 
+  useEffect(() => {
+    taskClient.getUser().then((res) => setUser(res));
+  }, []);
+
   useEffect(
     () => {
-      taskClient.getUser().then((res) => setUser(res));
       taskClient.getTasks().then((res) => setTasks(res));
     },
     [],
     [tasks]
   );
 
-  // Listen for task modifications
-  const taskArray = document.querySelectorAll('.task');
-  taskArray.forEach((item) => {
-    item.addEventListener('click', () => {
-      const content = item.querySelector('p');
-      const check = item.querySelector('.fas');
-      if (content.classList.contains('selected')) {
-        content.classList.remove('selected');
-        check.style.opacity = '0';
-      } else {
-        content.classList.add('selected');
-        check.style.opacity = '1';
-      }
-    });
-  });
+  // helper to change the display on selection
+  const applyStyles = (target, style) => {
+    if (target.classList.contains(style)) {
+      target.classList.remove(style);
+    } else {
+      target.classList.add(style);
+    }
 
+    let icon = target.nextElementSibling;
+
+    if (icon.classList.contains('red-check')) {
+      icon.classList.remove('red-check');
+    } else {
+      icon.classList.add('red-check');
+    }
+  };
   return (
     <div id="task-manager">
       <div className="heading">
@@ -40,14 +43,29 @@ const TaskManager = () => {
       <div className="new-tasks">
         <CreateTask setTasks={setTasks} />
       </div>
-      <div className="tasks">
+      <div id="tasks">
         {tasks.map((task) => (
           <div className="task" key={task._id}>
             <span>
-              <p className="desc" data-id={task._id}>
+              <p
+                className="desc"
+                data-id={task._id}
+                onClick={(e) => {
+                  const item = e.target;
+                  applyStyles(item, 'selected');
+                }}
+              >
                 {task.description}
               </p>
-              <i className="fas fa-check"></i>
+              <i
+                className="fas fa-times"
+                onClick={(e) => {
+                  const item =
+                    e.target.previousElementSibling.attributes[1].value;
+                  e.target.classList.add('hidden');
+                  taskClient.deleteTask(item, setTasks);
+                }}
+              ></i>
             </span>
           </div>
         ))}

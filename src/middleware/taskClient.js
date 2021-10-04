@@ -57,7 +57,20 @@ const taskClient = {
       }),
     }).then(
       taskClient.getTasks().then((res) => {
-        console.log(res);
+        cb(res);
+      })
+    );
+  },
+
+  deleteTask: async (taskID, cb) => {
+    await fetch(`/tasks/${taskID}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${JWTManager.getToken()}`,
+      },
+    }).then(
+      taskClient.getTasks().then((res) => {
         cb(res);
       })
     );
